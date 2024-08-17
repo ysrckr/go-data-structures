@@ -6,6 +6,10 @@ func (s *Stack) IsEmpty() bool {
 	return len(*s) == 0
 }
 
+func (s *Stack) Peek() string {
+	return (*s)[len(*s)-1]
+}
+
 func (s *Stack) Push(str string) {
 	*s = append(*s, str)
 }
