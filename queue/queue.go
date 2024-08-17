@@ -6,6 +6,10 @@ func (q *Queue) IsEmpty() bool {
 	return len(*q) == 0
 }
 
+func (q *Queue) Peek() string {
+	return (*q)[0]
+}
+
 func (q *Queue) Enqueue(str string) {
 	*q = append(*q, str)
 }
