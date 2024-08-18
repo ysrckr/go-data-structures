@@ -12,6 +12,18 @@ func BuildMinHeap(arr *[]int) MinHeap {
 	return minHeap
 }
 
+func BuildMaxHeap(arr *[]int) MaxHeap {
+	var maxHeap MaxHeap
+	maxHeap = *arr
+	length := len(maxHeap)
+
+	for i := length/2 - 1; i >= 0; i-- {
+		maxHeap.heapify(i)
+	}
+
+	return maxHeap
+}
+
 func parent(index int) int {
 	return (index - 1) / 2
 }
