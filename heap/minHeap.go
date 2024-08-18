@@ -2,29 +2,25 @@ package heap
 
 type MinHeap []int
 
-func (h *MinHeap) swap(firstIndex, secondIndex int) {
-	(*h)[firstIndex], (*h)[secondIndex] = (*h)[secondIndex], (*h)[firstIndex]
-}
-
-func (h *MinHeap) Insert(element int) {
+func (h *MinHeap) Push(element int) {
 	*h = append(*h, element)
 	insertedElementIndex := len(*h) - 1
 	h.heapifyUp(insertedElementIndex)
 }
 
-func (h *MinHeap) Remove() int {
-	removedElement := (*h)[0]
-	lastElementIndex := len(*h) - 1
-
+func (h *MinHeap) Pop() int {
 	if len(*h) == 0 {
 		return -1
 	}
+
+	removedElement := (*h)[0]
+	lastElementIndex := len(*h) - 1
 
 	(*h)[0] = (*h)[lastElementIndex]
 
 	*h = (*h)[:lastElementIndex]
 
-	h.heapifyDown(0)
+	h.heapify(0)
 
 	return removedElement
 }
@@ -36,31 +32,23 @@ func (h *MinHeap) heapifyUp(index int) {
 	}
 }
 
-func (h *MinHeap) heapifyDown(index int) {
-	lastIndexToCheck := len(*h) - 1
-	left, right := leftChild(index), rightChild(index)
-	childToCompare := 0
+func (h *MinHeap) heapify(index int) {
+	smallest, left, right := index, leftChild(index), rightChild(index)
 
-	// find the smallest of the left anf right children
-	for left <= lastIndexToCheck {
-		if left == lastIndexToCheck {
-			childToCompare = left
-		} else if (*h)[left] < (*h)[right] {
-			childToCompare = left
-		} else {
-			childToCompare = right
-		}
-
-		// swap the parent with the smallest child
-		if (*h)[index] > (*h)[childToCompare] {
-			h.swap(index, childToCompare)
-
-			// update the indexes that are being compared
-			index = childToCompare
-
-			left, right = leftChild(index), rightChild(index)
-		} else {
-			return
-		}
+	if left < len(*h) && (*h)[left] < (*h)[smallest] {
+		smallest = left
 	}
+
+	if right < len(*h) && (*h)[right] < (*h)[smallest] {
+		smallest = right
+	}
+
+	if smallest != index {
+		h.swap(smallest, index)
+		h.heapify(smallest)
+	}
+}
+
+func (h *MinHeap) swap(firstIndex, secondIndex int) {
+	(*h)[firstIndex], (*h)[secondIndex] = (*h)[secondIndex], (*h)[firstIndex]
 }

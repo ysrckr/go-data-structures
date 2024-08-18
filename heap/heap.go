@@ -1,5 +1,17 @@
 package heap
 
+func BuildMinHeap(arr *[]int) MinHeap {
+	var minHeap MinHeap
+	minHeap = *arr
+	length := len(minHeap)
+
+	for i := length/2 - 1; i >= 0; i-- {
+		minHeap.heapify(i)
+	}
+
+	return minHeap
+}
+
 func parent(index int) int {
 	return (index - 1) / 2
 }
